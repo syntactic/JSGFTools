@@ -27,16 +27,16 @@ rules, though the recursion is not as direct as the above example. It's a good
 idea to run these grammars with the generator scripts to see how the scripts 
 work:
 
-```> python DeterministicGenerator.py IdeasNonRecursive.gram
+```> python DeterministicGenerator.py IdeasNonRecursive.gram```
 
-> python ProbabilisticGenerator.py Ideas.gram 20```
+```> python ProbabilisticGenerator.py Ideas.gram 20```
 
 ### Notes
 
 - Larger grammars take a longer time to parse, so if nothing seems to be generating,
 wait a few seconds and the grammar should be parsed. 
 
-- Most of JSGF as described in [http://www.w3.org/TR/2000/NOTE-jsgf-20000605/] is
+- Most of JSGF as described in http://www.w3.org/TR/2000/NOTE-jsgf-20000605/ is
 supported, but there are a few things that have not been implemented by these
 tools yet:
     - Kleene operators
