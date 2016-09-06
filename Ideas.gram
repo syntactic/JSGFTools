@@ -1,0 +1,6 @@
+public <S> = <NP> <VP>;
+
+<NP> = /5/ the idea | /1/ the idea <CP>;
+<VP> = will suffice;
+
+<CP> = that <S>;

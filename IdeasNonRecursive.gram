@@ -1,0 +1,14 @@
+public <S> = <NP> <VP> | <thing>;
+
+<NP> = /5/ the idea | /1/ the idea <CP>;
+<VP> = <Modal> suffice;
+
+<CP> = that <S2>;
+
+<S2> = <NP2> <VP>;
+
+<NP2> = the idea;
+
+<Modal> = /10/ can | /15/ should | /5/ might;
+
+<thing> = the idea can suffice;
