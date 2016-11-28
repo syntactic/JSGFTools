@@ -3,7 +3,7 @@ This file lays out the class structure for a JSGF Grammar.
 
 .. module:: JSGFGrammar 
 
-.. moduleauthor:: Timothy Ho <timothy.a.ho@intel.com>
+.. moduleauthor:: Timothy Ho <timothyakho@gmail.com>
 """
 # @copyright: (c)Copyright 2014, THC All Rights Reserved.
 # The source code contained or described here in and all documents related
