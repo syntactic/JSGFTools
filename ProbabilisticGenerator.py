@@ -37,7 +37,7 @@ weights if they are provided.
 # otherwise. Any license under such intellectual property rights must be express
 # and approved by THC in writing.
 
-# @organization: NDG SDI Science
+# @organization: THC Science
 # @summary: This file generates sentences from a PCFG in JSGF. Run it by entering 
 #   in the command line: python ProbabilisticGenerator.py <grammarFile> <numStrings>
 #   where <grammarFile> is the path of the JSGF file, and <numString> is the number

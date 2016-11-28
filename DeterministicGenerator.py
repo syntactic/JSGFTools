@@ -32,7 +32,7 @@ This will generate all strings defined by the public rules of IdeasNonRecursive.
 # otherwise. Any license under such intellectual property rights must be express
 # and approved by THC in writing.
 
-# @organization: NDG SDI Science
+# @organization: THC Science
 # @summary: This file generates all strings described by a non-recursive JSGF grammar.
 #   Run it by entering into the command line: python DeterministicGenerator.py <grammarFile>
 #   where <grammarFile> is the path to the JSGF grammar.

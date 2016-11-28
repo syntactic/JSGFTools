@@ -56,7 +56,7 @@ Notable features of JSGF that are **not** handled by this parser are:
 # otherwise. Any license under such intellectual property rights must be express
 # and approved by THC in writing.
 
-# @organization: NDG SDI Science
+# @organization: THC Science
 # @summary: This file parses a JSGF Grammar and prints it out.
 # @since: 2014/06/02
 

@@ -24,7 +24,7 @@ This file lays out the class structure for a JSGF Grammar.
 # otherwise. Any license under such intellectual property rights must be express
 # and approved by THC in writing.
 
-# @organization: NDG SDI Science
+# @organization: THC Science
 # @summary: This file lays out the class structure for a JSGF Grammar
 # @since: 2014/06/02
 
