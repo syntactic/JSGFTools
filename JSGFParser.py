@@ -167,7 +167,7 @@ def foundSeq(s, loc, toks):
 weight = (Literal('/').suppress() + (Word(nums + '.')).setResultsName('weightAmount') + Literal('/').suppress()).setParseAction(foundWeight).setResultsName("weight")
 
 # PyParsing rule for a token
-token = Word(alphanums+"'_-").setResultsName('token').setParseAction(foundToken)
+token = Word(alphanums+"'_-,.?").setResultsName('token').setParseAction(foundToken)
 
 # PyParsing rule for a nonterminal reference
 nonterminal = Combine(Literal('<') + Word(alphanums+'$_:;,=|/\\()[]@#%!^&~') + Literal('>')).setParseAction(foundNonterminal).setResultsName('NonTerminal')
