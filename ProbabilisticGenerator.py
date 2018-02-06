@@ -90,7 +90,9 @@ def processSequence(seq):
     """
     componentSets = []
     for component in seq:
-        componentSets.append(processRHS(component).strip())
+        expandedComponent = processRHS(component).strip()
+        if len(expandedComponent) > 0:
+            componentSets.append(expandedComponent)
     return ' '.join(componentSets)
 
 
