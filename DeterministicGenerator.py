@@ -1,3 +1,25 @@
+# @copyright: MIT License
+#   Copyright (c) 2018 syntactic (Pastèque Ho)
+#   Permission is hereby granted, free of charge, to any person obtaining a copy
+#   of this software and associated documentation files (the "Software"), to deal
+#   in the Software without restriction, including without limitation the rights
+#   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#   copies of the Software, and to permit persons to whom the Software is
+#   furnished to do so, subject to the following conditions:
+#   The above copyright notice and this permission notice shall be included in all
+#   copies or substantial portions of the Software.
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#   SOFTWARE.
+# @summary: This file generates all strings described by a non-recursive JSGF grammar.
+#   Run it by entering into the command line: python DeterministicGenerator.py <grammarFile>
+#   where <grammarFile> is the path to the JSGF grammar.
+# @since: 2014/06/02
+
 """
 This file deterministically generates strings from a JSGF Grammar, whether there are \
         weights defined in rules or not. It requires one argument: the path to the JSGF\
@@ -12,31 +34,6 @@ This will generate all strings defined by the public rules of IdeasNonRecursive.
         terminates. Otherwise, you may get a maximum recursion depth exceeded error or \
         a segmentation fault. 
 """
-
-# @copyright: (c)Copyright 2014, THC All Rights Reserved.
-# The source code contained or described here in and all documents related
-# to the source code ("Material") are owned by THC or its
-# suppliers or licensors. Title to the Material remains with THC
-# or its suppliers and licensors. The Material contains trade secrets and
-# proprietary and confidential information of THC or its suppliers and
-# licensors.
-
-# The Material is protected by worldwide copyright and trade secret laws and
-# treaty provisions. No part of the Material may be used, copied, reproduced,
-# modified, published, uploaded, posted, transmitted, distributed, or disclosed
-# in any way without THC's prior express written permission.
-
-# No license under any patent, copyright, trade secret or other intellectual
-# property right is granted to or conferred upon you by disclosure or delivery
-# of the Materials, either expressly, by implication, inducement, estoppel or
-# otherwise. Any license under such intellectual property rights must be express
-# and approved by THC in writing.
-
-# @organization: THC Science
-# @summary: This file generates all strings described by a non-recursive JSGF grammar.
-#   Run it by entering into the command line: python DeterministicGenerator.py <grammarFile>
-#   where <grammarFile> is the path to the JSGF grammar.
-# @since: 2014/06/02
 
 import sys, itertools
 import JSGFParser as parser
