@@ -1,0 +1,14 @@
+// Sample Chinese grammar. It is important that the non-content text with standard ASCII characters:
+// semicolons, parentheses, square brackets, and angled brackets need to be ";", "(", "[", "<", etc
+// and not the unicode version used in Asian languages "；", "（", "【", "《", etc.
+
+public <S> = 你好 我 叫 <NAME> 我 在 <COMPANY_NAME> 工作;
+
+<NAME> = [<FAMILY_NAME>] <FIRST_NAME>;
+<FIRST_NAME> = (
+		国传 |
+		美丽 |
+		西瓜
+		);
+<FAMILY_NAME> = 侯 | 范 | 梁;
+<COMPANY_NAME> = Soundhound | 苹果 | 谷歌 | 腾讯;
