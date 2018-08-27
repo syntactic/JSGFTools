@@ -121,12 +121,12 @@ def processRHS(rhs):
 
 
 if __name__ == '__main__':
-    fileStream = open(sys.argv[1])
+    fileStream = open(sys.argv[1], 'r')
     grammar = parser.getGrammarObject(fileStream)
     for rule in grammar.publicRules:
         expansions = processRHS(rule.rhs)
         for expansion in expansions:
-            print expansion
+            print(expansion)
 
 
 

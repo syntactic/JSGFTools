@@ -165,7 +165,7 @@ def foundSeq(s, loc, toks):
 weight = (Literal('/').suppress() + (Word(nums + '.')).setResultsName('weightAmount') + Literal('/').suppress()).setParseAction(foundWeight).setResultsName("weight")
 
 # PyParsing rule for a token
-token = Word(alphanums+"'_-,.?@").setResultsName('token').setParseAction(foundToken)
+token = Word(alphanums + "'_-,.?@" + srange(r"[\0x4e00-\0x9fff]")).setResultsName('token').setParseAction(foundToken) # 4E00-9FFF
 
 # PyParsing rule for a nonterminal reference
 nonterminal = Combine(Literal('<') + Word(alphanums+'$_:;,=|/\\()[]@#%!^&~') + Literal('>')).setParseAction(foundNonterminal).setResultsName('NonTerminal')
@@ -225,7 +225,6 @@ def getGrammarObject(fileStream):
     grammar = gram.Grammar()
     for line in lines:
         buffer += line
-
         match = next(StartSymbol.scanString(buffer), None)
         while match:
             tokens, start, end = match
@@ -239,6 +238,6 @@ def getGrammarObject(fileStream):
     return grammar
 
 if __name__ == '__main__':
-    fileStream = open(sys.argv[1])
+    fileStream = open(sys.argv[1], 'r', encoding='utf-8')
     grammar = getGrammarObject(fileStream)
-    print grammar
+    print(grammar)

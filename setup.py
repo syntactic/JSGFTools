@@ -7,6 +7,9 @@ setup(
     version='1',
     url='https://github.com/syntactic/JSGFTools',
     author='timothyakho@gmail.com',
-    license='MIT'
+    license='MIT',
+    install_requires=[
+        'pyparsing'
+        ]
 
 )

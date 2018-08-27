@@ -152,7 +152,7 @@ if __name__ == '__main__':
             disjuncts.append(rhs)
         newStartSymbol = gram.Disjunction(disjuncts)
         for i in range(numIterations):
-            print processRHS(newStartSymbol)
+            print(processRHS(newStartSymbol))
         ###
         #else:
             #sys.exit('Bye')
@@ -160,7 +160,7 @@ if __name__ == '__main__':
         startSymbol = grammar.publicRules[0]
         for i in range(numIterations):
             expansions = processRHS(startSymbol.rhs)
-            print expansions
+            print(expansions)
 
 
 

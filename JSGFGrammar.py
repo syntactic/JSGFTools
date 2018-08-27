@@ -168,4 +168,4 @@ if __name__ == "__main__":
     jgOpt = Optional(jgDisj)
     jgRule = Rule("<greeting>", jgOpt)
 
-    print jgRule
+    print(jgRule)
