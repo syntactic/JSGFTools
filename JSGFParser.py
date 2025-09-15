@@ -60,7 +60,9 @@ Notable features of JSGF that are **not** handled by this parser are:
 
 import sys
 import JSGFGrammar as gram
-from pyparsing import * 
+from pyparsing import (Word, Literal, Group, Optional, ZeroOrMore, OneOrMore,
+                      Forward, MatchFirst, Combine, alphas, alphanums, nums,
+                      stringEnd) 
 
 sys.setrecursionlimit(100000)
 usePackrat = True
@@ -99,7 +101,6 @@ def foundWeightedExpression(s, loc, toks):
 
     :returns: Ordered pair of the expression and its weight
     """
-    toks.weightedExpression = (toks.expr, toks.weight)
     #print 'found weighted expression', toks.dump()
     expr = list(toks.expr)
     if len(expr) == 1:
@@ -241,4 +242,4 @@ def getGrammarObject(fileStream):
 if __name__ == '__main__':
     fileStream = open(sys.argv[1])
     grammar = getGrammarObject(fileStream)
-    print grammar
+    print(grammar)

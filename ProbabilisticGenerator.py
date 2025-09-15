@@ -130,37 +130,48 @@ def processRHS(rhs):
         return processOptional(rhs)
     elif isinstance(rhs, gram.NonTerminal):
         return processNonTerminal(rhs)
-    elif type(rhs) is str:
+    elif isinstance(rhs, str):
         return rhs
 
 
+def main():
+    """Main function for command line usage"""
+    global grammar
+
+    argParser = argparse.ArgumentParser(description='Generate random strings from a JSGF grammar')
+    argParser.add_argument('grammarFile', help='Path to the JSGF grammar file')
+    argParser.add_argument('iterations', type=int, help='Number of strings to generate')
+
+    try:
+        args = argParser.parse_args()
+    except SystemExit:
+        return
+
+    try:
+        with open(args.grammarFile, 'r') as fileStream:
+            grammar = parser.getGrammarObject(fileStream)
+
+            if len(grammar.publicRules) > 1:
+                # Multiple public rules - create a disjunction of all of them
+                disjuncts = [rule.rhs for rule in grammar.publicRules]
+                newStartSymbol = gram.Disjunction(disjuncts)
+                for i in range(args.iterations):
+                    print(processRHS(newStartSymbol))
+            else:
+                # Single public rule
+                startSymbol = grammar.publicRules[0]
+                for i in range(args.iterations):
+                    expansions = processRHS(startSymbol.rhs)
+                    print(expansions)
+    except FileNotFoundError:
+        print(f"Error: Grammar file '{args.grammarFile}' not found")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error processing grammar: {e}")
+        sys.exit(1)
+
 if __name__ == '__main__':
-    argParser = argparse.ArgumentParser()
-    argParser.add_argument('grammarFile')
-    argParser.add_argument('iterations', type=int, nargs=1, help='number of strings to generate')
-    args = argParser.parse_args()
-    fileStream = open(args.grammarFile)
-    numIterations = args.iterations[0]
-    grammar = parser.getGrammarObject(fileStream)
-    if len(grammar.publicRules) != 1:
-        #x = raw_input('Found more than one public rule. Generate a random string between them?\n')
-        #if x == 'y':
-        ### This next chunk has been de-indented
-        disjuncts = []
-        for rule in grammar.publicRules:
-            rhs = rule.rhs
-            disjuncts.append(rhs)
-        newStartSymbol = gram.Disjunction(disjuncts)
-        for i in range(numIterations):
-            print processRHS(newStartSymbol)
-        ###
-        #else:
-            #sys.exit('Bye')
-    else:
-        startSymbol = grammar.publicRules[0]
-        for i in range(numIterations):
-            expansions = processRHS(startSymbol.rhs)
-            print expansions
+    main()
 
 
 
