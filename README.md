@@ -1,44 +1,166 @@
 # JSGF Grammar Tools
 
-This set of tools can be used primarily to generate strings from a JSGF
-grammar, but it also provides an easy to use JSGFParser module which creates
-abstract syntax trees for JSGF grammars. Developers can use these ASTs to 
-help create more tools for their purposes. For more detailed documentation,
-refer to the Sphinx documentation located in docs/_build/html/index.html
+[![Python](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Dependencies
+A Python library for parsing and generating strings from JSGF (Java Speech Grammar Format) grammars. This modernized version supports Python 3.7+ and includes comprehensive testing.
 
-- Python 2.7
-- PyParsing module (http://pyparsing.wikispaces.com/Download+and+Installation)
+## Features
 
-## Instructions
+- **Parser**: Convert JSGF grammar files into abstract syntax trees
+- **Deterministic Generator**: Generate all possible strings from non-recursive grammars
+- **Probabilistic Generator**: Generate random strings using weights and probabilities
+- **Modern Python**: Full Python 3.7+ support with type hints and proper packaging
+- **Comprehensive Testing**: Full test suite with pytest
 
-The two main Python scripts are DeterministicGenerator.py and
-ProbabilisticGenerator.py. Both files require a grammar file as a command
-line argument, and the latter also requires a number, which refers to the number
-of sentences to generate. Importantly, DeterministicGenerator.py should not take
-grammars with recursive rules as an argument. A recursive rule is of the form:
+## Installation
 
-```<nonTerminal> = this (comes | goes) back to <nonTerminal>;```
+### From Source
+```bash
+git clone https://github.com/syntactic/JSGFTools.git
+cd JSGFTools
+pip install -e .
+```
 
-There are two example grammars included with the scripts: Ideas.gram and 
-IdeasNonRecursive.gram. Ideas.gram is an example of a grammar with recursive
-rules, though the recursion is not as direct as the above example. It's a good
-idea to run these grammars with the generator scripts to see how the scripts 
-work:
+### Development Setup
+```bash
+git clone https://github.com/syntactic/JSGFTools.git
+cd JSGFTools
+pip install -r requirements-dev.txt
+```
 
-```> python DeterministicGenerator.py IdeasNonRecursive.gram```
+## Quick Start
 
-```> python ProbabilisticGenerator.py Ideas.gram 20```
+### Command Line Usage
 
-### Notes
+Generate all possible strings from a non-recursive grammar:
+```bash
+python DeterministicGenerator.py IdeasNonRecursive.gram
+```
 
-- Larger grammars take a longer time to parse, so if nothing seems to be generating,
-wait a few seconds and the grammar should be parsed. 
+Generate 20 random strings from a grammar (supports recursive rules):
+```bash
+python ProbabilisticGenerator.py Ideas.gram 20
+```
 
-- Most of JSGF as described in http://www.w3.org/TR/2000/NOTE-jsgf-20000605/ is
-supported, but there are a few things that have not been implemented by these
-tools yet:
-    - Kleene operators
-    - Imports and Grammar Names
-    - Tags
+### Python API Usage
+
+```python
+import JSGFParser as parser
+import DeterministicGenerator as det_gen
+import ProbabilisticGenerator as prob_gen
+from io import StringIO
+
+# Parse a grammar
+grammar_text = """
+public <greeting> = hello | hi;
+public <target> = world | there;
+public <start> = <greeting> <target>;
+"""
+
+with StringIO(grammar_text) as f:
+    grammar = parser.getGrammarObject(f)
+
+# Generate all possibilities (deterministic)
+det_gen.grammar = grammar
+rule = grammar.publicRules[2]  # <start> rule
+all_strings = det_gen.processRHS(rule.rhs)
+print("All possible strings:", all_strings)
+
+# Generate random string (probabilistic)
+prob_gen.grammar = grammar
+random_string = prob_gen.processRHS(rule.rhs)
+print("Random string:", random_string)
+```
+
+## Grammar Format
+
+JSGFTools supports most of the JSGF specification:
+
+```jsgf
+// Comments are supported
+public <start> = <greeting> <target>;
+
+// Alternatives with optional weights
+<greeting> = /5/ hello | /1/ hi | hey;
+
+// Optional elements
+<polite> = [ please ];
+
+// Nonterminal references
+<target> = world | there;
+
+// Recursive rules (use with ProbabilisticGenerator only)
+<recursive> = base | <recursive> more;
+```
+
+### Supported Features
+- Rule definitions and nonterminal references
+- Alternatives (|) with optional weights (/weight/)
+- Optional elements ([...])
+- Grouping with parentheses
+- Comments (// and /* */)
+- Public and private rules
+
+### Not Yet Supported
+- Kleene operators (* and +)
+- Import statements
+- Tags
+
+## Important Notes
+
+### Recursive vs Non-Recursive Grammars
+
+- **DeterministicGenerator**: Only use with non-recursive grammars to avoid infinite loops
+- **ProbabilisticGenerator**: Can safely handle recursive grammars through probabilistic termination
+
+**Example of recursive rule:**
+```jsgf
+<sentence> = <noun> <verb> | <sentence> and <sentence>;
+```
+
+## Testing
+
+Run the test suite:
+```bash
+pytest test_jsgf_tools.py -v
+```
+
+Run specific test categories:
+```bash
+pytest test_jsgf_tools.py::TestJSGFParser -v      # Parser tests
+pytest test_jsgf_tools.py::TestIntegration -v     # Integration tests
+```
+
+## Documentation
+
+For detailed API documentation, build the Sphinx docs:
+```bash
+cd docs
+make html
+```
+
+Then open `docs/_build/html/index.html` in your browser.
+
+## Example Files
+
+- `Ideas.gram`: Recursive grammar example (use with ProbabilisticGenerator)
+- `IdeasNonRecursive.gram`: Non-recursive grammar example (use with DeterministicGenerator)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Run the test suite: `pytest`
+6. Submit a pull request
+
+## License
+
+MIT License. See [LICENSE](LICENSE) file for details.
+
+## Version History
+
+- **2.0.0**: Complete Python 3 modernization, added test suite, improved packaging
+- **1.x**: Original Python 2.7 version

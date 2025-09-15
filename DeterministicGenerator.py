@@ -116,17 +116,35 @@ def processRHS(rhs):
         return processOptional(rhs)
     elif isinstance(rhs, gram.NonTerminal):
         return processNonTerminal(rhs)
-    elif type(rhs) is str:
+    elif isinstance(rhs, str):
         return [rhs]
 
 
+def main():
+    """Main function for command line usage"""
+    global grammar
+
+    if len(sys.argv) != 2:
+        print("Usage: python DeterministicGenerator.py <grammarFile>")
+        sys.exit(1)
+
+    try:
+        with open(sys.argv[1], 'r') as fileStream:
+            grammar = parser.getGrammarObject(fileStream)
+
+            for rule in grammar.publicRules:
+                expansions = processRHS(rule.rhs)
+                for expansion in expansions:
+                    print(expansion)
+    except FileNotFoundError:
+        print(f"Error: Grammar file '{sys.argv[1]}' not found")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error processing grammar: {e}")
+        sys.exit(1)
+
 if __name__ == '__main__':
-    fileStream = open(sys.argv[1])
-    grammar = parser.getGrammarObject(fileStream)
-    for rule in grammar.publicRules:
-        expansions = processRHS(rule.rhs)
-        for expansion in expansions:
-            print expansion
+    main()
 
 
 
