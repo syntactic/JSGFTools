@@ -62,10 +62,29 @@ import sys
 import JSGFGrammar as gram
 from pyparsing import (Word, Literal, Group, Optional, ZeroOrMore, OneOrMore,
                       Forward, MatchFirst, Combine, alphas, alphanums, nums,
-                      stringEnd) 
+                      stringEnd, pyparsing_unicode) 
 
 sys.setrecursionlimit(100000)
 usePackrat = True
+
+# Unicode support: Tier 1 + Tier 2 scripts for comprehensive language coverage
+# Covers 5+ billion speakers: Latin, CJK, Arabic, Cyrillic, Devanagari, Hangul, Hebrew, Greek, Thai
+# Note: Using printables for scripts with combining characters (Thai, Devanagari)
+_unicode_letters = (
+    # Tier 1: Major scripts (Latin, CJK, Arabic, Cyrillic)
+    pyparsing_unicode.Latin1.alphas +
+    pyparsing_unicode.LatinA.alphas +
+    pyparsing_unicode.LatinB.alphas +
+    pyparsing_unicode.CJK.alphas +
+    pyparsing_unicode.Arabic.alphas +
+    pyparsing_unicode.Cyrillic.alphas +
+    # Tier 2: Common scripts (using printables for scripts with combining marks)
+    pyparsing_unicode.Devanagari.printables +
+    pyparsing_unicode.Hangul.alphas +
+    pyparsing_unicode.Hebrew.alphas +
+    pyparsing_unicode.Greek.alphas +
+    pyparsing_unicode.Thai.printables
+)
 
 def foundWeight(s, loc, toks):
     """
@@ -165,11 +184,11 @@ def foundSeq(s, loc, toks):
 # PyParsing rule for a weight
 weight = (Literal('/').suppress() + (Word(nums + '.')).setResultsName('weightAmount') + Literal('/').suppress()).setParseAction(foundWeight).setResultsName("weight")
 
-# PyParsing rule for a token
-token = Word(alphanums+"'_-,.?@").setResultsName('token').setParseAction(foundToken)
+# PyParsing rule for a token (with Unicode support)
+token = Word(alphanums + _unicode_letters + "'_-,.?@").setResultsName('token').setParseAction(foundToken)
 
-# PyParsing rule for a nonterminal reference
-nonterminal = Combine(Literal('<') + Word(alphanums+'$_:;,=|/\\()[]@#%!^&~') + Literal('>')).setParseAction(foundNonterminal).setResultsName('NonTerminal')
+# PyParsing rule for a nonterminal reference (with Unicode support)
+nonterminal = Combine(Literal('<') + Word(alphanums + _unicode_letters + '$_:;,=|/\\()[]@#%!^&~') + Literal('>')).setParseAction(foundNonterminal).setResultsName('NonTerminal')
 
 Sequence = Forward()
 

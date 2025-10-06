@@ -95,6 +95,89 @@ class TestJSGFParser:
 
         assert len(grammar.publicRules) == 1
 
+    def test_unicode_chinese(self):
+        """Test Chinese characters in grammar tokens"""
+        grammar_text = "public <numbers> = 零 | 一 | 二 | 三;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+        assert grammar.publicRules[0].lhs.name == "<numbers>"
+
+    def test_unicode_japanese(self):
+        """Test Japanese characters (hiragana and katakana)"""
+        grammar_text = "public <greeting> = こんにちは | さようなら | ありがとう;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+        rhs = grammar.publicRules[0].rhs
+        assert isinstance(rhs, list)
+
+    def test_unicode_arabic(self):
+        """Test Arabic characters"""
+        grammar_text = "public <greeting> = مرحبا | السلام عليكم | شكرا;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_korean(self):
+        """Test Korean Hangul characters"""
+        grammar_text = "public <greeting> = 안녕하세요 | 감사합니다;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_cyrillic(self):
+        """Test Cyrillic characters (Russian)"""
+        grammar_text = "public <greeting> = привет | здравствуйте | спасибо;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_hebrew(self):
+        """Test Hebrew characters"""
+        grammar_text = "public <greeting> = שלום | תודה;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_greek(self):
+        """Test Greek characters"""
+        grammar_text = "public <greeting> = γεια σου | ευχαριστώ;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_thai(self):
+        """Test Thai characters"""
+        grammar_text = "public <greeting> = สวัสดี | ขอบคุณ;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_devanagari(self):
+        """Test Devanagari characters (Hindi)"""
+        grammar_text = "public <greeting> = नमस्ते | धन्यवाद;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_mixed_scripts(self):
+        """Test mixing different scripts in the same grammar"""
+        grammar_text = """
+        public <greeting> = hello | 你好 | こんにちは | مرحبا | привет | שלום;
+        """
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+
+    def test_unicode_in_rule_names(self):
+        """Test Unicode characters in rule names (as JSGF spec allows)"""
+        grammar_text = "public <问候> = 你好 | 您好;"
+        grammar = parser.getGrammarObject(StringIO(grammar_text))
+
+        assert len(grammar.publicRules) == 1
+        assert grammar.publicRules[0].lhs.name == "<问候>"
+
 
 class TestJSGFGrammar:
     """Test the JSGF grammar objects"""

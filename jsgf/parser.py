@@ -9,7 +9,8 @@ from typing import TextIO, List, Optional, Union, Any
 import re
 from pyparsing import (
     Word, Literal, Group, Optional as PyparsingOptional, Forward, MatchFirst,
-    Combine, alphas, alphanums, nums, stringEnd, ParseException, ParserElement
+    Combine, alphas, alphanums, nums, stringEnd, ParseException, ParserElement,
+    pyparsing_unicode
 )
 
 from .ast_nodes import (
@@ -21,6 +22,25 @@ from .exceptions import ParseError
 
 # Enable packrat parsing for performance
 ParserElement.enablePackrat()
+
+# Unicode support: Tier 1 + Tier 2 scripts for comprehensive language coverage
+# Covers 5+ billion speakers: Latin, CJK, Arabic, Cyrillic, Devanagari, Hangul, Hebrew, Greek, Thai
+# Note: Using printables for scripts with combining characters (Thai, Devanagari)
+_unicode_letters = (
+    # Tier 1: Major scripts (Latin, CJK, Arabic, Cyrillic)
+    pyparsing_unicode.Latin1.alphas +
+    pyparsing_unicode.LatinA.alphas +
+    pyparsing_unicode.LatinB.alphas +
+    pyparsing_unicode.CJK.alphas +
+    pyparsing_unicode.Arabic.alphas +
+    pyparsing_unicode.Cyrillic.alphas +
+    # Tier 2: Common scripts (using printables for scripts with combining marks)
+    pyparsing_unicode.Devanagari.printables +
+    pyparsing_unicode.Hangul.alphas +
+    pyparsing_unicode.Hebrew.alphas +
+    pyparsing_unicode.Greek.alphas +
+    pyparsing_unicode.Thai.printables
+)
 
 
 class JSGFParser:
@@ -46,13 +66,13 @@ class JSGFParser:
         ).setParseAction(self._parse_weight)
 
         token = (
-            Word(alphanums + "'_-,.?@!#$%^&*()+={}[]|\\:;\"~`")
+            Word(alphanums + _unicode_letters + "'_-,.?@!#$%^&*()+={}[]|\\:;\"~`")
         ).setParseAction(self._parse_token)
 
         nonterminal = (
             Combine(
                 Literal('<') +
-                Word(alphanums + '$_:;,=|/\\()[]@#%!^&~') +
+                Word(alphanums + _unicode_letters + '$_:;,=|/\\()[]@#%!^&~') +
                 Literal('>')
             )
         ).setParseAction(self._parse_nonterminal)

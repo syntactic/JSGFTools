@@ -36,7 +36,7 @@ This will generate all strings defined by the public rules of IdeasNonRecursive.
         a segmentation fault. 
 """
 
-import sys, itertools
+import sys, itertools, argparse
 import JSGFParser as parser
 import JSGFGrammar as gram
 
@@ -124,12 +124,17 @@ def main():
     """Main function for command line usage"""
     global grammar
 
-    if len(sys.argv) != 2:
-        print("Usage: python DeterministicGenerator.py <grammarFile>")
-        sys.exit(1)
+    arg_parser = argparse.ArgumentParser(
+        description='Generate all possible strings from a non-recursive JSGF grammar'
+    )
+    arg_parser.add_argument(
+        'grammarFile',
+        help='Path to the JSGF grammar file'
+    )
+    args = arg_parser.parse_args()
 
     try:
-        with open(sys.argv[1], 'r') as fileStream:
+        with open(args.grammarFile, 'r') as fileStream:
             grammar = parser.getGrammarObject(fileStream)
 
             for rule in grammar.publicRules:
@@ -137,7 +142,7 @@ def main():
                 for expansion in expansions:
                     print(expansion)
     except FileNotFoundError:
-        print(f"Error: Grammar file '{sys.argv[1]}' not found")
+        print(f"Error: Grammar file '{args.grammarFile}' not found")
         sys.exit(1)
     except Exception as e:
         print(f"Error processing grammar: {e}")

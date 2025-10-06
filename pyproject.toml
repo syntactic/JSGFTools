@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jsgf-tools"
+version = "2.1.1"
+description = "Complete JSGF toolkit: parse, generate, and test speech grammars with Unicode support"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+    {name = "Pastèque Ho", email = "timothyakho@gmail.com"}
+]
+keywords = ["jsgf", "grammar", "speech recognition", "nlp", "parsing", "generation", "unicode", "testing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Text Processing :: Linguistic",
+    "Natural Language :: Chinese (Simplified)",
+    "Natural Language :: Japanese",
+    "Natural Language :: Korean",
+    "Natural Language :: Arabic",
+    "Natural Language :: Russian",
+    "Natural Language :: Hebrew",
+    "Natural Language :: Greek",
+    "Natural Language :: Hindi",
+]
+dependencies = [
+    "pyparsing>=3.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/syntactic/JSGFTools"
+Documentation = "https://github.com/syntactic/JSGFTools#readme"
+Repository = "https://github.com/syntactic/JSGFTools"
+Issues = "https://github.com/syntactic/JSGFTools/issues"
+
+[project.scripts]
+jsgf-deterministic = "DeterministicGenerator:main"
+jsgf-probabilistic = "ProbabilisticGenerator:main"
+
+[tool.pytest.ini_options]
+testpaths = ["."]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"
+
+[tool.setuptools]
+py-modules = ["JSGFParser", "JSGFGrammar", "DeterministicGenerator", "ProbabilisticGenerator"]
+
+[tool.setuptools.packages.find]
+exclude = ["tests*", "docs*", "examples*"]
