@@ -15,6 +15,11 @@ A Python library for parsing and generating strings from JSGF (Java Speech Gramm
 
 ## Installation
 
+### From PyPI (Recommended)
+```bash
+pip install jsgf-tools
+```
+
 ### From Source
 ```bash
 git clone https://github.com/syntactic/JSGFTools.git
@@ -26,7 +31,7 @@ pip install -e .
 ```bash
 git clone https://github.com/syntactic/JSGFTools.git
 cd JSGFTools
-pip install -r requirements-dev.txt
+pip install -e ".[dev]"
 ```
 
 ## Quick Start
@@ -101,6 +106,26 @@ public <start> = <greeting> <target>;
 - Grouping with parentheses
 - Comments (// and /* */)
 - Public and private rules
+- **Unicode support** for 10+ major language scripts
+
+### Unicode Support
+
+JSGFTools fully supports Unicode characters in both tokens and rule names, covering:
+- **Latin scripts** (English, Spanish, French, etc.)
+- **CJK** (Chinese, Japanese Kanji, Korean Hanja)
+- **Arabic** (Arabic, Persian, Urdu)
+- **Cyrillic** (Russian, Ukrainian, Bulgarian)
+- **Devanagari** (Hindi, Sanskrit, Marathi)
+- **Hangul** (Korean)
+- **Hebrew**
+- **Greek**
+- **Thai**
+
+Example:
+```jsgf
+public <greeting> = hello | 你好 | こんにちは | مرحبا | привет | שלום;
+public <问候> = 您好 | 欢迎;
+```
 
 ### Not Yet Supported
 - Kleene operators (* and +)
@@ -162,5 +187,7 @@ MIT License. See [LICENSE](LICENSE) file for details.
 
 ## Version History
 
+- **2.1.1**: Fixed argparse support in DeterministicGenerator CLI (--help now works)
+- **2.1.0**: Added comprehensive Unicode support (10+ language scripts), published to PyPI
 - **2.0.0**: Complete Python 3 modernization, added test suite, improved packaging
 - **1.x**: Original Python 2.7 version
